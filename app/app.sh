@@ -1,7 +1,6 @@
 #! /usr/bin/env sh
 set -e
 
-cd app/
 
 if [ -f main.py ]; then
     DEFAULT_MODULE_NAME=main

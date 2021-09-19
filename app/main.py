@@ -1,6 +1,7 @@
 import sys
 from fastapi import FastAPI
 from env_config import settings
+from utils.db import init_db
 from utils.logger import Logger
 from fast_api_load import FastAPIStarter
 from routers import routers_list
@@ -13,6 +14,7 @@ class App:
         Logger(class_name=__name__).info(
             msg=f"{settings.PROJECT_NAME} STARTING...Using python version {version} and Uvicorn with Gunicorn"
         )
+        await init_db()
 
     async def on_shutdown(self):
         Logger(class_name=__name__).info(
