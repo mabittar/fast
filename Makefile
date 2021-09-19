@@ -18,9 +18,11 @@ help:
 		  "	   lint: Lint file"\
 	      "    compose: Activate docker compose"\
 	      "    compose-up: Docker-up"\
+	      "    compose-down: Docker-down"\
+	      "    migrate: MAe Alembic Migrations"\
 	      "    compose-build: Docker build App Image"\
 	      ""\
-	      "View the Makefile for more documentation about all of the available commands"
+	      "View the Makefile for more documentation about all of the available commands"; \
 	@exit 2
 .PHONY: help
 
@@ -36,7 +38,7 @@ setup: venv requirements-dev.txt
 		then \
 		echo "virtual environment already exists skip initiation"; \
 		else \
-		@echo "virtual environment does not exist start creation" \
+		echo "virtual environment does not exist start creation" \
 		python -m venv venv; \
 		fi; \
 		clear; \
@@ -50,6 +52,7 @@ setup: venv requirements-dev.txt
 		pip install -r ./app/requirements-dev.txt; \
 	)
 .PHONY: setup
+
 run:
 	( \
 		source venv/bin/activate; \
@@ -84,21 +87,68 @@ lint:
 	)
 .PHONY: lint
 
-compose: compose-build
+compose:
+	( \
 	clear; \
 	echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
 	echo " Starting containerized environment"; \
 	echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
-	docker -compose -f ./container/local.docker-compose.yml up; \
+	docker-compose -f docker-compose.yml up; \
+	docker-compose exec web alembic init -t async migrations; \
+	)
 .PHONY: compose
 
-compose-up: compose-build
-	docker -compose -f container/local.docker-compose.yml up
+compose-up: 
+	( \
+	clear ; \
+	docker-compose -f docker-compose.yml up -d --build; \
+	)
 .PHONY: compose-up
 
-compose-down:
-	docker -compose -f container/local.docker-compose.yml down
+compose-down: 
+	( \
+		clear; \
+		docker-compose -f docker-compose.yml down -v; \
+	)
 .PHONY: compose-down
+
+migrations: 
+	( \
+		clear; \
+		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
+		echo " Apllying migrations in containerized environment"; \
+		echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
+		docker-compose exec web alembic upgrade head; \
+		echo "Show containers logs"; \
+		docker-compose logs web; \
+	)
+.PHONY: migrations
+
+migrate: 
+	( \
+		clear; \
+		echo "3 steps: Frist it'll bring down, then rebuild and after make migrations"; \
+		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
+		echo " 1. Stop containerized environment"; \
+		echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
+		docker-compose -f docker-compose.yml down -v; \
+		clear; \
+		echo "3 steps: Frist it'll bring down, then rebuild and after make migrations"; \
+		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
+		echo " 2. Start containerized environment"; \
+		echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
+		docker-compose -f docker-compose.yml up -d --build; \
+		clear; \
+		echo "3 steps: Frist it'll bring down, then rebuild and after make migrations"; \
+		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
+		echo " 3. Apllying migrations in containerized environment"; \
+		echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
+		docker-compose exec web alembic init -t async migrations; \
+		echo "Show containers logs"; \
+		docker-compose logs web; \
+	
+	)
+.PHONY: migrate
 
 build:
 	( \
@@ -108,7 +158,7 @@ build:
 		echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
 		out/image-id: $(shell find app -type f)
 		image_id="fastapi:$$(pwgen -1)"
-		docker -compose -f container/local.docker-compose.yml \
+		docker-compose -f docker-compose.yml \
 		build --parallel \
 		--build-arg \
 		--tag="$${image_id}" \

@@ -14,7 +14,6 @@ class App:
         Logger(class_name=__name__).info(
             msg=f"{settings.PROJECT_NAME} STARTING...Using python version {version} and Uvicorn with Gunicorn"
         )
-        await init_db()
 
     async def on_shutdown(self):
         Logger(class_name=__name__).info(

@@ -1,12 +1,11 @@
-version: '3.3'
+version: "3.3"
 
 services:
-
   web:
     image: fastapi_postgres
     build:
       context: ./.
-      dockerfile: ./app/Dockerfile        
+      dockerfile: ./app/Dockerfile
     ports:
       - "8000:8000"
     env_file:
@@ -25,4 +24,4 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=foo
+      - POSTGRES_DB=songs
