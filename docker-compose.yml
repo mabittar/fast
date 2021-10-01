@@ -2,26 +2,26 @@ version: "3.3"
 
 services:
   web:
-    image: fastapi_postgres
+    image: fastapi_fast_start
     build:
       context: ./.
       dockerfile: ./app/Dockerfile
     ports:
       - "8000:8000"
     env_file:
-      - ./local.env
+      - ./.env
     volumes:
       - ./project:/usr/src/app
-    environment:
+    environment:      
       - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/songs
-    depends_on:
-      - db
+  #   depends_on:
+  #     - db
 
-  db:
-    image: postgres:13.4
-    expose:
-      - 5432
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=songs
+  # db:
+  #   image: postgres:13.4
+  #   expose:
+  #     - 5432
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #     - POSTGRES_DB=songs

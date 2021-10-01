@@ -2,8 +2,6 @@ import json
 import multiprocessing
 import os
 from typing import List, Union
-
-from dotenv.main import load_dotenv
 from pydantic import BaseSettings, Field, validator
 from pydantic.networks import AnyHttpUrl
 
@@ -57,21 +55,31 @@ keepalive = int(keepalive_str)
 class EnvSettings(BaseSettings):
     service_root = os.path.abspath(os.path.dirname(__file__))
     project_root = os.path.abspath(os.path.join(service_root, os.pardir))
-    load_dotenv(dotenv_path="../local.env".format(project_root))
+    path = os.getcwd()
     DB_USERNAME: str = Field(default=None, env="DB_USERNAME")
     DB_PASSWORD: str = Field(default=None, env="DB_PASSWORD")
     DB_HOST: str = Field(default="127.0.0.1", env="DB_HOST")
     DB_PORT: int = Field(default=3360, env="DB_PORT")
     DB_POOL_SIZE: int = Field(default="-1", env="DB_POOL_SIZE")
     PROJECT_NAME: str = Field(default="fastapi_starter", env="PROJECT_NAME")
-    url_path = f'postgresql+asyncpg://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{PROJECT_NAME}'
+
+
+    API_KEY: str = Field(default=None, env="API_KEY")
+    OPENWEATHER_TIMEOUT: int = Field(default=360, env="OPENWEATHER_TIMEOUT")
+    LIFETIME_CACHE_HOURS: int = Field(
+        default=1.0, ge=0, le=24, env="LIFETIME_CACHE_HOURS")
+    DB_FILE: str = Field(default="database.db", env="DB_FILE")
+    LOCAL_HOST: str = Field(default='http://127.0.0.1', env="LOCAL_HOST")
+    LOCAL_PORT: int = Field(default=8000, env="LOCAL_PORT")
+    url: str = f'{LOCAL_HOST}:{LOCAL_PORT}'
+
 
     # if the project has db access auth uncomment this line and comment next one
     # DB_URL: str = Field(default=url_path)
+    # url_path = f'postgresql+asyncpg://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{PROJECT_NAME}'
     
-    DB_URL: str = Field(
-        default="sqlite+aiosqlite:///:memory:", env="DATABASE_URL")
 
+    
 
     back_end_cors_origins: List[AnyHttpUrl] = []
 
@@ -82,6 +90,11 @@ class EnvSettings(BaseSettings):
         elif isinstance(v, (list, str)):
             return v
         raise ValueError(v)
+
+    class Config:
+        case_sensitive = True
+        env_file = '../.env'
+        env_file_encoding = 'utf-8'
 
 settings = EnvSettings()
 
@@ -103,13 +116,9 @@ log_data = {
     "port": port,
 }
 
-db_path = f"{settings.DB_HOST}:{settings.DB_PORT}"
-project_path = f"project_root"
 db_data = dict(
-    project_name=settings.PROJECT_NAME,
-    project_path=project_path,
-    db_url=settings.DB_URL,
-    db_path=db_path,
+    project_url=f"starting: {settings.PROJECT_NAME} on {settings.url}",
+    sql_file=f"{settings.path}/{str(settings.DB_FILE)}",
     db_pool_size=settings.DB_POOL_SIZE,
 )
 

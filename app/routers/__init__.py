@@ -1,4 +1,5 @@
-from .basic import basic
-from .songs import songs
+from .home import router as home
+from .weather import router as weather
+from .report import router as report
 
-routers_list = [basic, songs]
+routers_list = [home, weather, report]

@@ -1,4 +1,6 @@
 from typing import Any, Callable, List, Optional, Sequence
+from fastapi.staticfiles import StaticFiles
+
 from fastapi.middleware.cors import CORSMiddleware
 from env_config import settings
 from fastapi import FastAPI
@@ -24,6 +26,8 @@ class FastAPIStarter:
             on_startup=on_startup,
             on_shutdown=on_shutdown,
         )
+        api.mount('/static', StaticFiles(directory='static'), name='static')
+
         if settings.back_end_cors_origins:
             api.add_middleware(
                 CORSMiddleware,
