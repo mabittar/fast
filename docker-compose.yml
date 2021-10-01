@@ -9,11 +9,14 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - ./.env
+      - ./app/.env
     volumes:
       - ./project:/usr/src/app
-    environment:      
-      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/songs
+    environment:
+        - MAX_WORKERS=8
+        - WEB_CONCURRENCY=3
+        - WORKERS_PER_CORE=5
+  #     - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/songs
   #   depends_on:
   #     - db
 

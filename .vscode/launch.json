@@ -25,7 +25,7 @@
                 "WaitOnNormalExit",
                 "RedirectOutput"
             ],
-            "envFile": "${workspaceFolder}/local.env",
+            "envFile": "${workspaceFolder}/app/.env",
             "preLaunchTask": "set_environment",
             "postDebugTask": "killdebugger"
         }

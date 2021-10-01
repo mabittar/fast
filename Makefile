@@ -11,18 +11,18 @@ OS = $(shell uname -s)
 # Print usage of main targets when user types "make" or "make help"
 
 help:
-	echo "Please choose one of the following targets:"\
-	      "    setup: Setup your development environment and install dependencies\n"\
-	      "    run: Run app"\
-		  "	   reload: Run app using reload mode"
-		  "	   lint: Lint file"\
-	      "    compose: Activate docker compose"\
-	      "    compose-up: Docker-up"\
-	      "    compose-down: Docker-down"\
-	      "    migrate: MAe Alembic Migrations"\
-	      "    compose-build: Docker build App Image"\
-	      ""\
-	      "View the Makefile for more documentation about all of the available commands"; \
+		"Please choose one of the following targets:"
+	    "    setup: Setup your development environment and install dependencies"
+	    "    run: Run app"
+		"	 reload: Run app using reload mode"
+		"	 lint: Lint file"
+	    "    compose: Activate docker compose"
+	    "    compose-up: Docker-up"
+	    "    compose-down: Docker-down"
+	    "    migrate: Make Alembic Migrations"
+	    "    compose-build: Docker build App Image"
+	    ""
+	    "View the Makefile for more documentation about all of the available commands";
 	@exit 2
 .PHONY: help
 
@@ -101,7 +101,7 @@ compose:
 compose-up: 
 	( \
 	clear ; \
-	docker-compose -f docker-compose.yml up -d --build; \
+	docker-compose -f docker-compose.yml up --build; \
 	)
 .PHONY: compose-up
 
