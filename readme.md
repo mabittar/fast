@@ -1,5 +1,5 @@
 # Fast API starter
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![author](https://img.shields.io/badge/Author-MarcelBittar-blue)](https://www.linkedin.com/in/marcelbittar/)   [![](https://img.shields.io/badge/dependencies-pyenv-red.svg)](https://github.com/pyenv/pyenv) [![](https://img.shields.io/badge/python-3.9.2+-blue.svg)](https://www.python.org/downloads/release/python-392/)    [![](https://img.shields.io/badge/dependencies-FastAPI-yellow.svg)](https://fastapi.tiangolo.com/)     [![](https://img.shields.io/badge/dependencies-SQLModel-yellow.svg)](https://sqlmodel.tiangolo.com/)     [![](https://img.shields.io/badge/build-passing-green.svg)](https://sqlmodel.tiangolo.com/)[![](https://img.shields.io/badge/docker%20build-passing-green.svg)](https://sqlmodel.tiangolo.com/)   [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/mabittar/Portfolio/issues)
 
 A multiple purpose Async project start using FastAPI
 
@@ -8,11 +8,18 @@ A multiple purpose Async project start using FastAPI
 ## How to use
 0. make sure pyenv is configured in your system
 1. clone this repo
+
+You could use make file to setup env and start API
+
 2. type make setup - It will update pyenv, check python version, create virtual environment and install dependencies
 4. In dev environment use make reload to startup your API and reloads after changes
 4.1 in live environment use make run - It will start up the API and server on localhost:8000.
 5. you could start debug mode using vscode launch (press F5).
-6. configure your database and local.env as you need
+6. at our browser go to http://127.0.0.1:8000
+7. check interactive documentation on http://127.0.0.1:8000/docs
+
+
+6. configure your database and .env as you need
 6. start develop your API
 
 
