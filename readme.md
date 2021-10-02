@@ -12,20 +12,20 @@ A multiple purpose Async project start using FastAPI
 You could use make file to setup env and start API
 
 2. type make setup - It will update pyenv, check python version, create virtual environment and install dependencies
-4. In dev environment use make reload to startup your API and reloads after changes
-4.1 in live environment use make run - It will start up the API and server on localhost:8000.
+4.1 In dev environment use make reload to startup your API and reloads after changes
+4.2 in live environment use make run - It will start up the API and server on localhost:8000.
 5. you could start debug mode using vscode launch (press F5).
 6. at our browser go to http://127.0.0.1:8000
 7. check interactive documentation on http://127.0.0.1:8000/docs
 
+8. start develop your API
+9. configure your database and .env as you need
 
-6. configure your database and .env as you need
-6. start develop your API
+---
 
+## Structure
 
-# Structure
-
-## Root
+### Root
 env_config.py is the fle to load environment variables and configure your api
 main.py file where API starts
 requirements
@@ -33,31 +33,31 @@ makefile
 docker files and docker yml
 
 
-## Fast_api_load
+### Fast_api_load
 Where API will be created and all resources like session to database, middleware and endpoints will be loaded
 
-## Connectors
+### Connectors
 All outsource resources stay here, for example there is connector to external WeatherAPI
 
-## Infrastructure
+### Infrastructure
 Resources like database connections and cache configuration
 
-## Models
+### Models
 Represents database tables, schemas for requests and response
 
-## Routers
+### Routers
 Endpoints with requests validations, and response format
 
-## Service
+### Service
 All logic, and access point to CRUD services
 
-## Static
+### Static
 All statics files handle by API
 
-## Template
+### Template
 HTML templates
 
-## Utils
+### Utils
 Utils files like, logger, rest connectors...
 
 

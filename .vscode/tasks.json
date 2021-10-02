@@ -6,7 +6,7 @@
         {
             "label": "set_environment",
             "type": "shell",
-            "command": "source venv/bin/activate && pip install -r requirements.txt && pip install -r requirements-dev.txt",
+            "command": "source venv/bin/activate && pip install -r app/requirements.txt && pip install -r app/requirements-dev.txt",
         },
         {
             "label": "killdebugger",
