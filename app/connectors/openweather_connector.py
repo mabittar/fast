@@ -1,5 +1,5 @@
 from models.validation_error import ValidationError
-from connectors.base_async_connector import BaseAsyncConnector
+from utils.base_async_connector import BaseAsyncConnector
 from fastapi import HTTPException
 from httpx import Response
 from env_config import settings
