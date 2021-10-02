@@ -1,7 +1,9 @@
 import os
 
 from env_config import settings
-from sqlmodel import Session, SQLModel, create_engine
+from sqlmodel import Session
+from sqlmodel import SQLModel
+from sqlmodel import create_engine
 
 sql_file = f"{settings.path}/{str(settings.DB_FILE)}"
 

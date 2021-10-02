@@ -1,9 +1,8 @@
-from models.validation_error import ValidationError
-from utils.base_async_connector import BaseAsyncConnector
+from env_config import settings
 from fastapi import HTTPException
 from httpx import Response
-from env_config import settings
-
+from models.validation_error import ValidationError
+from utils.base_async_connector import BaseAsyncConnector
 
 
 class OpenWeatherConnector(BaseAsyncConnector):
@@ -14,27 +13,19 @@ class OpenWeatherConnector(BaseAsyncConnector):
         self.units = units
         self.lang = lang
 
-
     async def send_async(self):
         api_key = settings.API_KEY
         if self.state is not None:
             q = f"{self.city},{self.state},{self.country}"
         else:
             q = f"{self.city},{self.country}"
-        try: 
+        try:
             url = f"http://api.openweathermap.org/data/2.5/weather?q={q}&units={self.units}&lang={self.lang}&appid={api_key}"
 
-            resp: Response = await self.request_async(
-                method="GET",
-                url=url,
-                timeout=settings.OPENWEATHER_TIMEOUT
-                )
+            resp: Response = await self.request_async(method="GET", url=url, timeout=settings.OPENWEATHER_TIMEOUT)
 
             if resp.status_code != 200:
-                raise ValidationError(
-                    error_msg=resp.text,
-                    status_code=resp.status_code
-                )
+                raise ValidationError(error_msg=resp.text, status_code=resp.status_code)
 
             return resp
 

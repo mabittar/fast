@@ -72,8 +72,8 @@ lint: ## Lint files and structure using pep8 and sortimports
 		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
 		echo " Linting APP"; \
 		echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
-		black --check .; \
-		isort --recursive  --force-single-line-imports --line-width 88 --apply .; \
+		black --check -l 120 -t py39 ./app; \
+		isort --force-single-line-imports --line-width 120 --skip **/*__init__.py ./app; \
 	)
 .PHONY: lint
 

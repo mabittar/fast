@@ -1,5 +1,7 @@
 import datetime
-from typing import Optional, Tuple
+from typing import Optional
+from typing import Tuple
+
 from env_config import settings
 
 __cache = {}
@@ -12,10 +14,10 @@ def get_weather(city: str, state: Optional[str], country: Optional[str], units: 
     if not data:
         return None
 
-    last = data['time']
+    last = data["time"]
     dt = datetime.datetime.now() - last
     if dt / datetime.timedelta(minutes=60) < lifetime_in_hours:
-        return data['value']
+        return data["value"]
 
     del __cache[key]
     return None
@@ -23,10 +25,7 @@ def get_weather(city: str, state: Optional[str], country: Optional[str], units: 
 
 def set_weather(city: str, state: str, country: str, units: str, value: dict):
     key = __create_key(city, state, country, units)
-    data: dict = dict(
-        time=datetime.datetime.now(),
-        value=value
-    )
+    data: dict = dict(time=datetime.datetime.now(), value=value)
     __cache[key] = data
     __clean_out_of_date()
 
@@ -43,6 +42,6 @@ def __create_key(city: str, state: str, country: str, units: str) -> Tuple[str, 
 
 def __clean_out_of_date():
     for key, data in list(__cache.items()):
-        dt = datetime.datetime.now() - data.get('time')
+        dt = datetime.datetime.now() - data.get("time")
         if dt / datetime.timedelta(minutes=60) > lifetime_in_hours:
             del __cache[key]

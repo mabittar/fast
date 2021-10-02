@@ -1,14 +1,9 @@
 import httpx
 
+
 class BaseAsyncConnector:
     async def request_async(
-        self,
-        url=None,
-        method=None,
-        headers=None,
-        payload=None,
-        timeout=None,
-        **kwargs
+        self, url=None, method=None, headers=None, payload=None, timeout=None, **kwargs
     ) -> httpx.Response:
         async with httpx.AsyncClient() as client:
             if method == "GET":

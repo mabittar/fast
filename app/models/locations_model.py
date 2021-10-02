@@ -1,5 +1,8 @@
-from sqlmodel import Field, SQLModel
 from typing import Optional
+
+from sqlmodel import Field
+from sqlmodel import SQLModel
+
 
 class Location(SQLModel):
     city: str = Field(description="Enter the city name to get weather now")

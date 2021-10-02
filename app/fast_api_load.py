@@ -1,9 +1,13 @@
-from typing import Any, Callable, List, Optional, Sequence
-from fastapi.staticfiles import StaticFiles
+from typing import Any
+from typing import Callable
+from typing import List
+from typing import Optional
+from typing import Sequence
 
-from fastapi.middleware.cors import CORSMiddleware
 from env_config import settings
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 
 class FastAPIStarter:
@@ -17,7 +21,7 @@ class FastAPIStarter:
         on_shutdown: Optional[Sequence[Callable[[], Any]]] = None,
     ) -> FastAPI:
 
-        #edit documentation URI
+        # edit documentation URI
         swagger_url = f"/docs/"
 
         api = FastAPI(
@@ -26,7 +30,7 @@ class FastAPIStarter:
             on_startup=on_startup,
             on_shutdown=on_shutdown,
         )
-        api.mount('/static', StaticFiles(directory='static'), name='static')
+        api.mount("/static", StaticFiles(directory="static"), name="static")
 
         if settings.back_end_cors_origins:
             api.add_middleware(

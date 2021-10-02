@@ -1,7 +1,9 @@
-from models.validation_error import ValidationError
-from connectors.openweather_connector import OpenWeatherConnector
 from typing import Optional
+
+from connectors.openweather_connector import OpenWeatherConnector
 from infrastructure import weather_cache
+from models.validation_error import ValidationError
+
 
 class LocationService:
     async def get_report_async(
@@ -9,23 +11,24 @@ class LocationService:
         state: Optional[str] = None,
         country: Optional[str] = "BR",
         units: Optional[str] = "metric",
-        lang: Optional[str] = "pt_br"
+        lang: Optional[str] = "pt_br",
     ) -> dict:
         try:
-            valid_units = {'standard', 'metric', 'imperial'}
+            valid_units = {"standard", "metric", "imperial"}
             if units not in valid_units:
                 msg = f"Invalid unit {units}, it must be one of {valid_units}"
                 raise ValidationError(status_code=400, error_msg=msg)
 
             if len(country) != 2:
-                raise ValidationError(status_code=400, error_msg='Country must be alpha-2 code')
+                raise ValidationError(status_code=400, error_msg="Country must be alpha-2 code")
 
             forecast = weather_cache.get_weather(city, state, country, units)
             if forecast:
                 return forecast
 
             openweather_connector = OpenWeatherConnector(
-                city=city, state=state, country=country, units=units, lang="pt_br")
+                city=city, state=state, country=country, units=units, lang="pt_br"
+            )
             report = await openweather_connector.send_async()
             report = report.json()
             report_main = report["main"]

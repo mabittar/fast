@@ -94,11 +94,7 @@ class Formatter(logging.Formatter):
         log_status = dict(
             severity=logger.levelname,
             message=payload.get("message"),
-            timestamp=str(
-                datetime.datetime.now(
-                    datetime.timezone(offset=datetime.timedelta(hours=-3))
-                )
-            ),
+            timestamp=str(datetime.datetime.now(datetime.timezone(offset=datetime.timedelta(hours=-3)))),
         )
 
         return json.dumps(log_status)

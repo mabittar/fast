@@ -1,8 +1,12 @@
 import json
 import multiprocessing
 import os
-from typing import List, Union
-from pydantic import BaseSettings, Field, validator
+from typing import List
+from typing import Union
+
+from pydantic import BaseSettings
+from pydantic import Field
+from pydantic import validator
 from pydantic.networks import AnyHttpUrl
 
 workers_per_core_str = os.getenv("WORKERS_PER_CORE", "1")
@@ -52,6 +56,7 @@ keepalive = int(keepalive_str)
 
 # ENV Settings
 
+
 class EnvSettings(BaseSettings):
     service_root = os.path.abspath(os.path.dirname(__file__))
     project_root = os.path.abspath(os.path.join(service_root, os.pardir))
@@ -62,24 +67,19 @@ class EnvSettings(BaseSettings):
     DB_PORT: int = Field(default=3360, env="DB_PORT")
     DB_POOL_SIZE: int = Field(default="-1", env="DB_POOL_SIZE")
     PROJECT_NAME: str = Field(default="fastapi_starter", env="PROJECT_NAME")
-    DB_ECHO: bool = Field(default='False', env='DB_ECHO')
+    DB_ECHO: bool = Field(default="False", env="DB_ECHO")
 
     API_KEY: str = Field(default=None, env="API_KEY")
     OPENWEATHER_TIMEOUT: int = Field(default=360, env="OPENWEATHER_TIMEOUT")
-    LIFETIME_CACHE_HOURS: int = Field(
-        default=1.0, ge=0, le=24, env="LIFETIME_CACHE_HOURS")
+    LIFETIME_CACHE_HOURS: int = Field(default=1.0, ge=0, le=24, env="LIFETIME_CACHE_HOURS")
     DB_FILE: str = Field(default="database.db", env="DB_FILE")
-    LOCAL_HOST: str = Field(default='http://127.0.0.1', env="LOCAL_HOST")
+    LOCAL_HOST: str = Field(default="http://127.0.0.1", env="LOCAL_HOST")
     LOCAL_PORT: int = Field(default=8000, env="LOCAL_PORT")
-    url: str = f'{LOCAL_HOST}:{LOCAL_PORT}'
-
+    url: str = f"{LOCAL_HOST}:{LOCAL_PORT}"
 
     # if the project has db access auth uncomment this line and comment next one
     # DB_URL: str = Field(default=url_path)
     # url_path = f'postgresql+asyncpg://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{PROJECT_NAME}'
-    
-
-    
 
     back_end_cors_origins: List[AnyHttpUrl] = []
 
@@ -93,8 +93,9 @@ class EnvSettings(BaseSettings):
 
     class Config:
         case_sensitive = True
-        env_file = '.env'
-        env_file_encoding = 'utf-8'
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+
 
 settings = EnvSettings()
 

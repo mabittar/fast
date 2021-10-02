@@ -1,18 +1,19 @@
-
-from fastapi import APIRouter, responses
+from fastapi import APIRouter
+from fastapi import responses
 from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 
+templates = Jinja2Templates("templates")
+router = APIRouter(
+    tags=["home"],
+)
 
-templates = Jinja2Templates('templates')
-router = APIRouter(tags=["home"],)
 
-
-@router.get('/')
+@router.get("/")
 def index(request: Request):
-    return templates.TemplateResponse('home/index.html', {'request': request})
+    return templates.TemplateResponse("home/index.html", {"request": request})
 
 
-@router.get('/favicon.ico')
+@router.get("/favicon.ico")
 def favicon():
-    return responses.RedirectResponse(url='/static/img/favicon.ico')
+    return responses.RedirectResponse(url="/static/img/favicon.ico")

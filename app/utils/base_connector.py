@@ -1,14 +1,8 @@
 import requests
 
+
 class BaseConnector:
-    def request(
-        self,
-        url=None,
-        method=None,
-        headers=None,
-        payload=None,
-        **kwargs
-    ) :
+    def request(self, url=None, method=None, headers=None, payload=None, **kwargs):
         if method == "GET":
             resp = requests.get(
                 url,
@@ -48,5 +42,3 @@ class BaseConnector:
         else:
             raise Exception("Undefined request method")
         return resp
-
-    

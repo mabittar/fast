@@ -1,11 +1,11 @@
 import asyncio
 import socket
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
+from fastapi import Depends
+from infrastructure.database import get_session
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import Response
-
-from infrastructure.database import get_session
 
 router = APIRouter(prefix="/health_check", tags=["Health"])
 
