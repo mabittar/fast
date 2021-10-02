@@ -7,27 +7,17 @@ MAKEFLAGS += --no-builtin-rules
 PROJECT=FastAPI_starer
 OS = $(shell uname -s)
 
+.DEFAULT_GOAL := help
 
 # Print usage of main targets when user types "make" or "make help"
 
-help:
-		"Please choose one of the following targets:"
-	    "    setup: Setup your development environment and install dependencies"
-	    "    run: Run app"
-		"	 reload: Run app using reload mode"
-		"	 lint: Lint file"
-	    "    compose: Activate docker compose"
-	    "    compose-up: Docker-up"
-	    "    compose-down: Docker-down"
-	    "    migrate: Make Alembic Migrations"
-	    "    compose-build: Docker build App Image"
-	    ""
-	    "View the Makefile for more documentation about all of the available commands";
-	@exit 2
 .PHONY: help
 
+help:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-setup: venv requirements-dev.txt
+
+setup: venv requirements-dev.txt ## Setup your development environment and install dependencies
 	(\
 		clear; \
 		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
@@ -53,7 +43,7 @@ setup: venv requirements-dev.txt
 	)
 .PHONY: setup
 
-run:
+run: ## Run app
 	( \
 		source venv/bin/activate; \
 		clear; \
@@ -64,7 +54,7 @@ run:
 	)
 .PHONY: run
 
-reload:
+reload: ## Run app reload  mode
 	( \
 		source venv/bin/activate; \
 		clear; \
@@ -75,7 +65,7 @@ reload:
 	)
 .PHONY: reload
 
-lint:
+lint: ## Lint files and structure using pep8 and sortimports
 	( \
 		source venv/bin/activate; \
 		clear; \
@@ -87,7 +77,7 @@ lint:
 	)
 .PHONY: lint
 
-compose:
+compose: ## Start docker
 	( \
 	clear; \
 	echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
@@ -98,21 +88,21 @@ compose:
 	)
 .PHONY: compose
 
-compose-up: 
+compose-up: ## Build docker using docker-compose.yml
 	( \
 	clear ; \
 	docker-compose -f docker-compose.yml up --build; \
 	)
 .PHONY: compose-up
 
-compose-down: 
+compose-down: ## Stop docker env
 	( \
 		clear; \
 		docker-compose -f docker-compose.yml down -v; \
 	)
 .PHONY: compose-down
 
-migrations: 
+migrations: ## Make migrations inside docker container
 	( \
 		clear; \
 		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
@@ -124,7 +114,7 @@ migrations:
 	)
 .PHONY: migrations
 
-migrate: 
+migrate: ## Stop docker, and applying migrations in containerized environment
 	( \
 		clear; \
 		echo "3 steps: Frist it'll bring down, then rebuild and after make migrations"; \
@@ -165,4 +155,3 @@ build:
 		echo "$${image_id}" out/image-id; \
 	)
 .PHONY: build
-

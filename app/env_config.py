@@ -36,7 +36,7 @@ use_accesslog = accesslog_var or None
 errorlog_var = os.getenv("ERROR_LOG", "-")
 use_errorlog = errorlog_var or None
 graceful_timeout_str = os.getenv("GRACEFUL_TIMEOUT", "120")
-timeout_str = os.getenv("TIMEOUT", "120")
+timeout_str = os.getenv("TIMEOUT", "360")
 keepalive_str = os.getenv("KEEP_ALIVE", "5")
 
 # Gunicorn config variables
@@ -62,7 +62,7 @@ class EnvSettings(BaseSettings):
     DB_PORT: int = Field(default=3360, env="DB_PORT")
     DB_POOL_SIZE: int = Field(default="-1", env="DB_POOL_SIZE")
     PROJECT_NAME: str = Field(default="fastapi_starter", env="PROJECT_NAME")
-
+    DB_ECHO: bool = Field(default='False', env='DB_ECHO')
 
     API_KEY: str = Field(default=None, env="API_KEY")
     OPENWEATHER_TIMEOUT: int = Field(default=360, env="OPENWEATHER_TIMEOUT")

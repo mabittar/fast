@@ -93,7 +93,6 @@ class Formatter(logging.Formatter):
         payload = json.loads(logger.getMessage())
         log_status = dict(
             severity=logger.levelname,
-            message_dict=payload.get("message_dict"),
             message=payload.get("message"),
             timestamp=str(
                 datetime.datetime.now(

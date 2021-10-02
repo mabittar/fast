@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.9.2
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
 
 
 # set working directory
@@ -18,7 +18,7 @@ RUN apt-get update && apt-get clean
 # install python dependencies
 RUN pip install --upgrade pip
 COPY ./app/requirements.txt ./
-RUN  pip install --no-cache-dir -r requirements.txt
+RUN  pip install --no-cache-dir --upgrade -r requirements.txt
 
 # add app
 COPY ./app .
