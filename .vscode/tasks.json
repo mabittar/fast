@@ -7,6 +7,12 @@
             "label": "set_environment",
             "type": "shell",
             "command": "source venv/bin/activate && pip install -r app/requirements.txt && pip install -r app/requirements-dev.txt",
+            "args": [
+                {
+                "PYTHONDONTWRITEBYTECODE": 1,
+                "PYTHONUNBUFFERED": 1
+
+            }]
         },
         {
             "label": "killdebugger",

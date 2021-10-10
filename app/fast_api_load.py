@@ -30,7 +30,8 @@ class FastAPIStarter:
             on_startup=on_startup,
             on_shutdown=on_shutdown,
         )
-        api.mount("/static", StaticFiles(directory="static"), name="static")
+        
+        # api.mount("/static", StaticFiles(directory="static"), name="static")
 
         if settings.back_end_cors_origins:
             api.add_middleware(

@@ -6,7 +6,6 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import HTTPException
 from fastapi import Query
-from infrastructure.database import engine
 from infrastructure.database import get_session
 from models.report_model import Report
 from models.report_model import ReportPost

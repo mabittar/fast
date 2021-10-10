@@ -8,7 +8,10 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1
 
 # Turns off buffering for easier container logging
-ENV PYTHONUNBUFFERED=1
+# Prevents Python from writing pyc files
+ENV PYTHONDONTWRITEBYTECODE 1
+# Prevents Python from buffering stdout and stderr
+ENV PYTHONUNBUFFERED 1
 
 
 # install system dependencies

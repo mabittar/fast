@@ -118,7 +118,7 @@ log_data = {
 }
 
 db_data = dict(
-    project_url=f"starting: {settings.PROJECT_NAME} on {settings.url}",
+    project_url=f"starting: {settings.PROJECT_NAME}",
     sql_file=f"{settings.path}/{str(settings.DB_FILE)}",
     db_pool_size=settings.DB_POOL_SIZE,
 )
