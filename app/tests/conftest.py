@@ -1,10 +1,5 @@
 from sqlmodel import Session
-import os
-from pathlib import Path
-import sys
 import pytest
-from os import path, pardir
-from dotenv import load_dotenv
 from fastapi.testclient import TestClient
 
 
