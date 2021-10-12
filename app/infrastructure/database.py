@@ -9,15 +9,17 @@ sql_file = f"{settings.path}/{str(settings.DB_FILE)}"
 
 connect_args = {"check_same_thread": False}
 sqlite_url = f"sqlite:///{sql_file}"
-engine = create_engine(sqlite_url, echo=settings.DB_ECHO, connect_args=connect_args)
+
+def setting_engine():
+    return create_engine(sqlite_url, echo=settings.DB_ECHO, connect_args=connect_args)
 
 
 def create_db_and_tables():
-    SQLModel.metadata.create_all(engine)
+    SQLModel.metadata.create_all(setting_engine())
 
 
 def get_session():
-    db = Session(engine)
+    db = Session(setting_engine())
     try:
         yield db
     except Exception:

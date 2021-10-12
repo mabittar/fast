@@ -5,6 +5,7 @@ from fastapi.testclient import TestClient
 from httpx import AsyncClient
 from asyncio import get_event_loop
 from main import app
+from infrastructure.database import setting_engine
 
 @pytest.fixture(autouse=True)
 async def in_memory_db():
@@ -27,6 +28,7 @@ async def session(engine):
 
 @pytest.fixture(scope="module")
 def client():
+    app.dependency_overrides[setting_engine] = in_memory_db
     client = TestClient(app)
     yield client
 
@@ -34,6 +36,7 @@ def client():
 @pytest.fixture(scope="module")
 async def async_client() -> Generator:
 
+    app.dependency_overrides[setting_engine] = in_memory_db
     async with AsyncClient(app=app, base_url="http://testserver") as client:
 
         yield client

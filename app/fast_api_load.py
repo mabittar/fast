@@ -8,6 +8,7 @@ from env_config import settings
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from os.path import realpath
 
 
 class FastAPIStarter:
@@ -31,7 +32,7 @@ class FastAPIStarter:
             on_shutdown=on_shutdown,
         )
         
-        # api.mount("/static", StaticFiles(directory="static"), name="static")
+        api.mount("/static", StaticFiles(directory=realpath(f'{realpath(__file__)}/../static')), name="static")
 
         if settings.back_end_cors_origins:
             api.add_middleware(
