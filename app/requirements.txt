@@ -18,3 +18,4 @@ aiofiles
 sqlmodel
 requests
 httpx
+python-jose[cryptography] == 1.16

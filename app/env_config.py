@@ -1,5 +1,6 @@
 import json
 import multiprocessing
+import secrets
 import os
 from typing import List
 from typing import Union
@@ -72,6 +73,9 @@ class EnvSettings(BaseSettings):
     API_KEY: str = Field(default=None, env="API_KEY")
     OPENWEATHER_TIMEOUT: int = Field(default=360, env="OPENWEATHER_TIMEOUT")
     LIFETIME_CACHE_HOURS: int = Field(default=1.0, ge=0, le=24, env="LIFETIME_CACHE_HOURS")
+    SECRET_KEY: str = secrets.token_urlsafe(32)
+    # 60 minutes * 24 hours * 8 days = 8 days
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     DB_FILE: str = Field(default="database.db", env="DB_FILE")
     LOCAL_HOST: str = Field(default="http://127.0.0.1", env="LOCAL_HOST")
     LOCAL_PORT: int = Field(default=8000, env="LOCAL_PORT")
