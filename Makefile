@@ -24,7 +24,7 @@ setup: venv requirements-dev.txt ## Setup your development environment and insta
 		echo " Start LOCAL environment"; \
 		echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
 		echo " Check if virtual environment exists or initiate"; \
-		if [ -d ./venv ]; \
+		if [ -d /venv ]; \
 		then \
 		echo "virtual environment already exists skip initiation"; \
 		else \

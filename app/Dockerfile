@@ -4,8 +4,6 @@ FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
 
 # set working directory
 WORKDIR /app
-# Keeps Python from generating .pyc files in the container
-ENV PYTHONDONTWRITEBYTECODE=1
 
 # Turns off buffering for easier container logging
 # Prevents Python from writing pyc files
