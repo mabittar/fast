@@ -1,1 +1,0 @@
-web: sh -c 'cd app/ && exec app_reload.sh'
