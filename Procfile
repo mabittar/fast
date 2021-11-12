@@ -1,1 +1,1 @@
-web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
+web: sh -c 'cd ./app/ && exec app_reload.sh'
