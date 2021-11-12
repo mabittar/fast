@@ -39,7 +39,7 @@ setup: venv requirements-dev.txt ## Setup your development environment and insta
 		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
 		echo " Install requirements-dev"; \
 		echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
-		pip install -r ./app/requirements-dev.txt; \
+		pip install -r ./requirements-dev.txt; \
 	)
 .PHONY: setup
 

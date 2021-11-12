@@ -18,7 +18,7 @@ RUN apt-get update && apt-get clean
 
 # install python dependencies
 RUN pip install --upgrade pip
-COPY ./app/requirements.txt ./
+COPY ./requirements.txt ./
 RUN  pip install --no-cache-dir --upgrade -r requirements.txt
 
 # add app
