@@ -1,0 +1,35 @@
+# pull official base image
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
+
+
+# set working directory
+WORKDIR /app
+
+# Turns off buffering for easier container logging
+# Prevents Python from writing pyc files
+ENV PYTHONDONTWRITEBYTECODE 1
+# Prevents Python from buffering stdout and stderr
+ENV PYTHONUNBUFFERED 1
+
+
+# install system dependencies
+RUN apt-get update && apt-get clean
+
+
+# install python dependencies
+RUN pip install --upgrade pip
+COPY ./app/requirements.txt ./
+RUN  pip install --no-cache-dir --upgrade -r requirements.txt
+
+# add app
+COPY ./app .
+
+ENV PORT=8000
+EXPOSE 8000
+
+# change app.sh permissions
+RUN chmod +x app.sh
+
+CMD ["./app.sh"]
+
+

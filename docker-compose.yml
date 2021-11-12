@@ -1,0 +1,30 @@
+version: "3.3"
+
+services:
+  web:
+    image: fastapi_fast_start
+    build:
+      context: ./.
+      dockerfile: ./app/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./app/.env
+    volumes:
+      - ./project:/usr/src/app
+    environment:
+        - MAX_WORKERS=8
+        - WEB_CONCURRENCY=3
+        - WORKERS_PER_CORE=5
+  #     - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/songs
+  #   depends_on:
+  #     - db
+
+  # db:
+  #   image: postgres:13.4
+  #   expose:
+  #     - 5432
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #     - POSTGRES_DB=songs

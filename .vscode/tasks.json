@@ -1,0 +1,23 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "set_environment",
+            "type": "shell",
+            "command": "source venv/bin/activate && pip install -r app/requirements.txt && pip install -r app/requirements-dev.txt",
+            "args": [
+                {
+                "PYTHONDONTWRITEBYTECODE": 1,
+                "PYTHONUNBUFFERED": 1
+
+            }]
+        },
+        {
+            "label": "killdebugger",
+            "type": "shell",
+            "command": "lsof -t -i tcp:3051 | xargs kill -9"
+        }
+    ]
+}
