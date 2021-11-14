@@ -144,6 +144,7 @@ heroku: ## Deploy application to heroku
 	(
 		clear; \
 		echo "Deploy heroku app"; \
+		git subtree push --prefix app heroku master:main \
 	)
 
 build:

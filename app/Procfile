@@ -1,1 +1,2 @@
-web: uvicorn main:app --host=0.0.0.0 --port=${PORT:-5000} --log-file -
+uvicorn --reload --host $HOST --port $PORT --log-level $LOG_LEVEL "$APP_MODULE"
+web: gunicorn -k uvicorn.workers.UvicornWorker -c env_config.py main:app
