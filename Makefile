@@ -146,7 +146,7 @@ build:
 		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
 		echo " Building containers... "; \
 		echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
-		out/image-id: $(shell find app -type f)
+		out/image-id: $(shell find ./app -type f)
 		image_id="fastapi:$$(pwgen -1)"
 		docker-compose -f docker-compose.yml \
 		build --parallel \

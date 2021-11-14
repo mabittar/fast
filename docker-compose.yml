@@ -16,7 +16,7 @@ services:
         - MAX_WORKERS=8
         - WEB_CONCURRENCY=3
         - WORKERS_PER_CORE=5
-  #     - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/songs
+  #     - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/reports
   #   depends_on:
   #     - db
 
@@ -27,4 +27,4 @@ services:
   #   environment:
   #     - POSTGRES_USER=postgres
   #     - POSTGRES_PASSWORD=postgres
-  #     - POSTGRES_DB=songs
+  #     - POSTGRES_DB=reports

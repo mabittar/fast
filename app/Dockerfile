@@ -1,8 +1,9 @@
 # pull official base image
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
+FROM python:3.9.6-alpine3.14
 
 
 # set working directory
+RUN mkdir /app
 WORKDIR /app
 
 # Turns off buffering for easier container logging
@@ -13,13 +14,14 @@ ENV PYTHONUNBUFFERED 1
 
 
 # install system dependencies
-RUN apt-get update && apt-get clean
+RUN apk update && apk upgrade
+RUN apk add --no-cache build-base
 
 
 # install python dependencies
 RUN pip install --upgrade pip
 COPY ./app/requirements.txt ./
-RUN  pip install --no-cache-dir --upgrade -r requirements.txt
+RUN  pip install --upgrade -r requirements.txt
 
 # add app
 COPY ./app .
