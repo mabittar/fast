@@ -140,6 +140,12 @@ migrate: ## Stop docker, and applying migrations in containerized environment
 	)
 .PHONY: migrate
 
+heroku: ## Deploy application to heroku
+	(
+		clear; \
+		echo "Deploy heroku app"; \
+	)
+
 build:
 	( \
 		clear; \
