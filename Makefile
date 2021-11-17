@@ -7,8 +7,6 @@ MAKEFLAGS += --no-builtin-rules
 PROJECT=FastAPI_starer
 OS = $(shell uname -s)
 
-.DEFAULT_GOAL := help
-
 # Print usage of main targets when user types "make" or "make help"
 
 .PHONY: help
@@ -16,6 +14,7 @@ OS = $(shell uname -s)
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+.DEFAULT_GOAL := help
 
 setup: venv requirements-dev.txt ## Setup your development environment and install dependencies
 	(\
@@ -153,12 +152,11 @@ build:
 		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
 		echo " Building containers... "; \
 		echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
-		out/image-id: $(shell find ./app -type f)
-		image_id="fastapi:$$(pwgen -1)"
+		VERSION= $(git describe --tags --always --abbrev=12)
+		echo 'build docker tag $(VERSION)'
 		docker-compose -f docker-compose.yml \
 		build --parallel \
 		--build-arg \
-		--tag="$${image_id}" \
-		echo "$${image_id}" out/image-id; \
+		-t="$${VERSION}" \
 	)
 .PHONY: build
