@@ -29,7 +29,7 @@ line_length = 88
 
 
 [tool.poetry]
-name = "fast_apit_starter"
+name = "fast_api_starter"
 version = "0.1.0"
 description = "Fast API template start"
 authors = ["Your Name <you@example.com>"]

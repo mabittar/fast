@@ -4,8 +4,11 @@ SHELL := bash
 .DELETE_ON_ERROR:
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
-PROJECT=FastAPI_starer
+PROJECT=fastapi_fast_start
 OS = $(shell uname -s)
+TAG    := $$(git describe --tags --always --abbrev=12)
+IMG    := ${PROJECT}:${TAG}
+LATEST := ${PROJECT}:latest
 
 # Print usage of main targets when user types "make" or "make help"
 
@@ -83,7 +86,6 @@ compose: ## Start docker
 	echo " Starting containerized environment"; \
 	echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
 	docker-compose -f docker-compose.yml up; \
-	docker-compose exec web alembic init -t async migrations; \
 	)
 .PHONY: compose
 
@@ -101,8 +103,21 @@ compose-down: ## Stop docker env
 	)
 .PHONY: compose-down
 
-migrations: ## Make migrations inside docker container
+compose-start-alembic: ## Start Alembic 
+	(\
+	clear; \
+	echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
+	echo " Start Alembic creations and environment"; \
+	echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
+	docker-compose -f docker-compose.yml down -v; \
+	docker-compose -f docker-compose.yml up; \
+	docker-compose exec web alembic init alembic; \
+	)
+.PHONY: compose-start-alembic
+
+compose-migrations: ## Make migrations inside docker container
 	( \
+		echo " Remember to edit migrations config"; \
 		clear; \
 		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
 		echo " Apllying migrations in containerized environment"; \
@@ -111,7 +126,7 @@ migrations: ## Make migrations inside docker container
 		echo "Show containers logs"; \
 		docker-compose logs web; \
 	)
-.PHONY: migrations
+.PHONY: compose-migrations
 
 migrate: ## Stop docker, and applying migrations in containerized environment
 	( \
@@ -145,18 +160,17 @@ heroku: ## Deploy application to heroku
 		echo "Deploy heroku app"; \
 		git subtree push --prefix app heroku master:main \
 	)
+.PHONY: heroku
 
-build:
+build-tag:
 	( \
 		clear; \
 		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
-		echo " Building containers... "; \
+		echo " Building containers and tag latest... "; \
 		echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
-		VERSION= $(git describe --tags --always --abbrev=12)
-		echo 'build docker tag $(VERSION)'
+		echo "build docker tag '$(VERSION)'"; \
 		docker-compose -f docker-compose.yml \
-		build --parallel \
-		--build-arg \
-		-t="$${VERSION}" \
+		build --parallel
+		docker tag ${PROJECT} ${IMG} \
 	)
-.PHONY: build
+.PHONY: build-tag

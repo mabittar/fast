@@ -1,5 +1,5 @@
 import sys
-
+import os.path
 from env_config import EnvSettings
 from env_config import settings
 from fast_api_load import FastAPIStarter
@@ -19,10 +19,10 @@ class App:
     async def on_startup(self):
         logger = Logger(class_name=__name__)
         logger.info(msg=f"{settings.PROJECT_NAME} STARTING...Using python version {version} and Uvicorn with Gunicorn")
-        get_settings()
         logger.info(msg="Loading Settings")
-        create_db_and_tables()
+        get_settings()
         logger.info(msg="Creating Database")
+        create_db_and_tables()
 
     async def on_shutdown(self):
         Logger(class_name=__name__).info(msg=f"{settings.PROJECT_NAME} STOPING API...")
