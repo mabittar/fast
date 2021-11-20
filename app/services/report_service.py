@@ -1,11 +1,11 @@
 from datetime import datetime
-from typing import List
-from typing import Optional
+from typing import List, Optional
 from uuid import uuid4
-from utils.logger import Logger
+
 from infrastructure.database import get_session
 from models import Report
 from sqlmodel import select
+from utils.logger import Logger
 
 
 class ReportService:
@@ -17,6 +17,7 @@ class ReportService:
         self.logger.debug("Getting paginated reports")
         statement = select(Report).offset(page).limit(page_size)
         results = self.session.exec(statement).all()
+        self.logger.debug(f"Found {len(results)} result(s)")
         return results
 
     async def get_report(

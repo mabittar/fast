@@ -14,7 +14,7 @@ from services import report_service
 from services.report_service import ReportService
 from sqlmodel import Session
 
-router = APIRouter(tags=["report"])
+router = APIRouter(tags=["Report - CRUD Services"])
 
 
 @router.get("/api/reports", name="all reports", response_model=List[Report])

@@ -48,11 +48,12 @@
         </li>
     </ul>
     </p>
-    {% if events %}
+    {% if reports %}
     <div>
+    <br>
         <h2> Recent Events Reported</h2>
         <ul>
-            {% for e in events %}
+            {% for e in reports %}
             <li> {{ e.city }}, {{ e.country }}: {{ e.description }}</li>
             {% endfor %}
         </ul>

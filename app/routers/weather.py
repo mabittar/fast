@@ -8,7 +8,7 @@ from models.locations_model import Location
 from models.validation_error import ValidationError
 from services.location_service import LocationService
 
-router = APIRouter(tags=["weather"])
+router = APIRouter(tags=["Weather - external connector"])
 
 
 @router.get("/api/weather/{city}")
