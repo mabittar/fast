@@ -91,10 +91,8 @@ class Formatter(logging.Formatter):
     def format(self, logger):
 
         payload = json.loads(logger.getMessage())
-        log_status = dict(
-            severity=logger.levelname,
-            message=payload.get("message"),
-            timestamp=str(datetime.datetime.now(datetime.timezone(offset=datetime.timedelta(hours=-3)))),
-        )
-
-        return json.dumps(log_status)
+        lvl = str(logger.levelname).upper()
+        msg = payload.get("message")
+        ts = str(datetime.datetime.now(datetime.timezone(offset=datetime.timedelta(hours=-3))))
+        log_str = f"{lvl} - {msg} - timestamp: {ts}"
+        return log_str

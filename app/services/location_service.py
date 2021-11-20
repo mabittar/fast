@@ -3,6 +3,7 @@ from utils.logger import Logger
 from connectors.openweather_connector import OpenWeatherConnector
 from infrastructure import weather_cache
 from models.validation_error import ValidationError
+from dto.weather_dto import ReportResponseDTO
 
 
 class LocationService:
@@ -28,9 +29,15 @@ class LocationService:
             if len(country) != 2:
                 raise ValidationError(status_code=400, error_msg="Country must be alpha-2 code")
 
+            search = dict(
+                city=city,
+                state=state,
+                country=country
+            )
+
             forecast = weather_cache.get_weather(city, state, country, units)
             if forecast:
-                return forecast
+                return self.__generate_response(response=forecast, search=search)
 
             self.logger.debug(f"No weather cached for {city}, using connector to OpenWeather")
             openweather_connector = OpenWeatherConnector(
@@ -41,6 +48,11 @@ class LocationService:
             report_main = report["main"]
 
             weather_cache.set_weather(city, state, country, units, report_main)
-            return report_main
+            return self.__generate_response(response=report_main, search=search)
         except Exception as e:
             raise e
+
+    def __generate_response(self, response: dict, search: dict):
+        self.logger.debug(f"Generating weather RESPONSE DTO")
+        response.update(search)
+        return ReportResponseDTO(**response).dict()
