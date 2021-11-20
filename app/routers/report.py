@@ -1,6 +1,5 @@
 from typing import List
 from typing import Optional
-from typing import Union
 from utils.logger import Logger
 from fastapi import APIRouter
 from fastapi import Depends
@@ -9,8 +8,6 @@ from fastapi import Query
 from infrastructure.database import get_session
 from models.report_model import Report
 from models.report_model import ReportPost
-from models.report_model import ReportRead
-from services import report_service
 from services.report_service import ReportService
 from sqlmodel import Session
 
@@ -58,7 +55,12 @@ async def report_search(
     return report
 
 
-@router.post("/api/reports", name="create new report", status_code=201, response_model=Report)
+@router.post(
+    "/api/reports", 
+    name="create new report", 
+    status_code=201, 
+    response_model=Report,
+    )
 async def reports_post(
     *, 
     session: Session = Depends(get_session), 
