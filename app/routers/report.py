@@ -1,7 +1,7 @@
 from typing import List
 from typing import Optional
 from typing import Union
-
+from utils.logger import Logger
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import HTTPException
@@ -24,7 +24,7 @@ async def reports_get(
     page: Optional[int] = Query(default=0, ge=0),
     page_size: Optional[int] = Query(default=10, lte=100),
 ) -> List[Report]:
-    report_service = ReportService(session)
+    report_service = ReportService(session=session, logger=Logger(class_name=__name__))
     return report_service.get_reports(page, page_size)
 
 
@@ -34,7 +34,7 @@ async def report_search(
     session: Session = Depends(get_session),
     report_id: int = Query(default=1, ge=1, description="Report ID"),
 ):
-    report_service = ReportService(session)
+    report_service = ReportService(session=session, logger=Logger(class_name=__name__))
     report = await report_service.get_report(id=report_id)
     if not report:
         raise HTTPException(status_code=404, detail="Report not found")
@@ -51,7 +51,7 @@ async def report_search(
 
     if not city:
         raise HTTPException(status_code=404, detail="City cant be None")
-    report_service = ReportService(session)
+    report_service = ReportService(session=session, logger=Logger(class_name=__name__))
     report = await report_service.get_report(city=city, first_result=first_result)
     if not report:
         raise HTTPException(status_code=404, detail="Report not found")
@@ -59,7 +59,11 @@ async def report_search(
 
 
 @router.post("/api/reports", name="create new report", status_code=201, response_model=Report)
-async def reports_post(*, session: Session = Depends(get_session), report: ReportPost) -> Report:
+async def reports_post(
+    *, 
+    session: Session = Depends(get_session), 
+    report: ReportPost
+    ) -> Report:
 
-    report_service = ReportService(session)
+    report_service = ReportService(session=session, logger=Logger(class_name=__name__))
     return report_service.add_report(report)
