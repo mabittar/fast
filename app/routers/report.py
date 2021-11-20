@@ -1,5 +1,6 @@
 from typing import List
 from typing import Optional
+
 from utils.logger import Logger
 from fastapi import APIRouter
 from fastapi import Depends
@@ -12,6 +13,21 @@ from services.report_service import ReportService
 from sqlmodel import Session
 
 router = APIRouter(tags=["Report - CRUD Services"])
+
+@router.post(
+    "/api/reports",
+    name="create new report",
+    status_code=201,
+    response_model=Report,
+)
+async def reports_post(
+    *,
+    session: Session = Depends(get_session),
+    report: ReportPost
+) -> Report:
+
+    report_service = ReportService(session=session, logger=Logger(class_name=__name__))
+    return report_service.add_report(report)
 
 
 @router.get("/api/reports", name="all reports", response_model=List[Report])
@@ -53,19 +69,3 @@ async def report_search(
     if not report:
         raise HTTPException(status_code=404, detail="Report not found")
     return report
-
-
-@router.post(
-    "/api/reports", 
-    name="create new report", 
-    status_code=201, 
-    response_model=Report,
-    )
-async def reports_post(
-    *, 
-    session: Session = Depends(get_session), 
-    report: ReportPost
-    ) -> Report:
-
-    report_service = ReportService(session=session, logger=Logger(class_name=__name__))
-    return report_service.add_report(report)
