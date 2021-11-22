@@ -1,10 +1,10 @@
 import datetime
+from collections import OrderedDict
 from typing import Optional
 from typing import Tuple
-from utils.logger import Logger
-from collections import OrderedDict
 
 from env_config import settings
+from utils.logger import Logger
 
 __cache = OrderedDict()
 lifetime_in_hours = settings.LIFETIME_CACHE_HOURS

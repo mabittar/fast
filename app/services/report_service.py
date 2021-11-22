@@ -1,5 +1,6 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List
+from typing import Optional
 from uuid import uuid4
 
 from infrastructure.database import get_session
@@ -13,7 +14,12 @@ class ReportService:
         self.session = session if session is not None else get_session()
         self.logger = logger if logger is not None else Logger(class_name=__name__)
 
-    def get_reports(self, page: Optional[int] = 0, page_size: Optional[int] = 10) -> List[Report]:
+    def get_reports(
+        self, 
+        page: Optional[int] = 0, 
+        page_size: Optional[int] = 10
+    ) -> List[Report]:
+
         self.logger.debug("Getting paginated reports")
         statement = select(Report).offset(page).limit(page_size)
         results = self.session.exec(statement).all()
@@ -47,7 +53,12 @@ class ReportService:
         uuid = str(uuid4())
         state = data.state if data.state is not None else None
         report = Report(
-            city=data.city, country=data.country, state=state, description=data.description, created_at=now, uuid=uuid
+            city=data.city, 
+            country=data.country, 
+            state=state, 
+            description=data.description, 
+            created_at=now, 
+            uuid=uuid
         )
 
         self.session.add(report)

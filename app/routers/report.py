@@ -1,9 +1,9 @@
 from typing import List
 from typing import Optional
 
-from utils.logger import Logger
 from fastapi import APIRouter
 from fastapi import Depends
+from fastapi import Header
 from fastapi import HTTPException
 from fastapi import Query
 from infrastructure.database import get_session
@@ -11,6 +11,7 @@ from models.report_model import Report
 from models.report_model import ReportPost
 from services.report_service import ReportService
 from sqlmodel import Session
+from utils.logger import Logger
 
 router = APIRouter(tags=["Report - CRUD Services"])
 

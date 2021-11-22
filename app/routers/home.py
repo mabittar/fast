@@ -1,12 +1,14 @@
 from typing import List
-from fastapi import APIRouter, Depends
+
+from fastapi import APIRouter
+from fastapi import Depends
 from fastapi import responses
-from sqlmodel import Session
-from starlette.requests import Request
-from starlette.templating import Jinja2Templates
 from infrastructure.database import get_session
 from models.report_model import Report
 from services.report_service import ReportService
+from sqlmodel import Session
+from starlette.requests import Request
+from starlette.templating import Jinja2Templates
 
 templates = Jinja2Templates("templates")
 router = APIRouter(

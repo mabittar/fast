@@ -1,3 +1,4 @@
+from os.path import realpath
 from typing import Any
 from typing import Callable
 from typing import List
@@ -8,7 +9,6 @@ from env_config import settings
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from os.path import realpath
 
 
 class FastAPIStarter:

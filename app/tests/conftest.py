@@ -1,11 +1,13 @@
+from asyncio import get_event_loop
 from typing import Generator
-from sqlmodel import Session
+
 import pytest
 from fastapi.testclient import TestClient
 from httpx import AsyncClient
-from asyncio import get_event_loop
-from main import app
 from infrastructure.database import setting_engine
+from main import app
+from sqlmodel import Session
+
 
 @pytest.fixture(autouse=True)
 async def in_memory_db():

@@ -1,9 +1,10 @@
 from typing import Optional
-from utils.logger import Logger
+
 from connectors.openweather_connector import OpenWeatherConnector
+from dto.weather_dto import ReportResponseDTO
 from infrastructure import weather_cache
 from models.validation_error import ValidationError
-from dto.weather_dto import ReportResponseDTO
+from utils.logger import Logger
 
 
 class LocationService:

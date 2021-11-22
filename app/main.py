@@ -1,5 +1,5 @@
 import sys
-import os.path
+
 from env_config import EnvSettings
 from env_config import settings
 from fast_api_load import FastAPIStarter
